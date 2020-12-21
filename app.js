@@ -9,7 +9,7 @@ app.get("/course/api", (req, res) => {
   res.send([1, 2, 3]);
 });
 app.get("/course/api/post/:year/:months", (req, res) => {
-  res.send(req.querry);
+  res.send(req.params);
 });
 //export PORT=5000;
 
