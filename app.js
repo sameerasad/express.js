@@ -1,8 +1,13 @@
+const { urlencoded } = require("express");
 const express = require("express");
 const Joi = require("joi");
 const app = express();
 const logger = require("./logger");
 app.use(express.json()); //middleware function which takes the request.body and convert invert json object
+
+//built in middleware
+app.use(express.urlencoded({ extended: true })); //this middleware parses in coming req with url payload of key=value pair
+app.use(express.static("public")); //this middleware is used to serve static content
 
 app.use(logger);
 
