@@ -27,14 +27,10 @@ app.get("/courses/api/:id", (req, res) => {
 });
 
 app.post("/courses/api", (req, res) => {
-  const schema = {
-    name: Joi.string().min(3).required(),
-  };
-  const result = Joi.validate(req.body, schema);
-  console.log(result);
+  const { error } = validate(req.body);
 
-  if (result.error) {
-    res.status(400).send(result.error.details[0].message);
+  if (error) {
+    res.status(400).send(error.details[0].message);
     return;
   }
   const course = {
@@ -44,9 +40,34 @@ app.post("/courses/api", (req, res) => {
   courses.push(course);
   res.send(course);
 });
+//update the course by id
+app.put("/courses/api/:id", (req, res) => {
+  //lookup the courses
+  const course = courses.find((c) => c.id === parseInt(req.params.id));
+  if (!course) res.status(404).send("course with given id is not found");
+
+  //validate the course
+
+  const { error } = validate(req.body);
+  if (error) {
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+  //update the course
+
+  course.name = req.body.name;
+  res.send(course);
+});
 
 //export PORT=5000;
 
 const port = process.env.PORT || 3000;
 console.log(port);
 app.listen(port, () => console.log(`app is listening on ${port}`));
+
+const validate = (course) => {
+  const schema = {
+    name: Joi.string().min(3).required(),
+  };
+  return Joi.validate(course, schema);
+};
