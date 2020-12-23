@@ -27,10 +27,15 @@ app.get("/courses/api/:id", (req, res) => {
 });
 
 app.post("/courses/api", (req, res) => {
-  if (!req.body.name || req.body.name < 3) {
-    res
-      .status(400)
-      .send("name is required and should be minimun  3 characters");
+  const schema = {
+    name: Joi.string().min(3).required(),
+  };
+  const result = Joi.validate(req.body, schema);
+  console.log(result);
+
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+    return;
   }
   const course = {
     id: courses.length + 1,
