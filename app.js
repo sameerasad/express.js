@@ -2,6 +2,8 @@ const { urlencoded } = require("express");
 const express = require("express");
 const Joi = require("joi");
 const app = express();
+const helmet = require("helmet");
+const morgan = require("morgan");
 const logger = require("./logger");
 app.use(express.json()); //middleware function which takes the request.body and convert invert json object
 
@@ -10,6 +12,15 @@ app.use(express.urlencoded({ extended: true })); //this middleware parses in com
 app.use(express.static("public")); //this middleware is used to serve static content
 
 app.use(logger);
+
+//third party middleware
+app.use(
+  helmet()
+); /*Helmet can help protect your app from some well-known web vulnerabilities by setting HTTP headers appropriately.
+
+Helmet is actually just a collection of smaller middleware functions that set security-related HTTP response headers
+*/
+app.use(morgan("tiny")); //https logger
 
 const courses = [
   { id: 1, name: "courses1" },
