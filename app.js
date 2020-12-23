@@ -18,10 +18,19 @@ app.use(
   helmet()
 ); /*Helmet can help protect your app from some well-known web vulnerabilities by setting HTTP headers appropriately.
 
+
 Helmet is actually just a collection of smaller middleware functions that set security-related HTTP response headers
 */
-app.use(morgan("tiny")); //https logger
+//detecting environment
 
+console.log(`NODE_ENV:${process.env.NODE_ENV}`); //by default undefined we can set by export NODE_ENV=production or development
+console.log(app.get("env")); //by default development
+
+if (app.get("env") === "development") {
+  app.use(morgan("tiny")); //https logger
+  console.log("Morgan enabled....");
+}
+console.log(process.env.NODE_ENV);
 const courses = [
   { id: 1, name: "courses1" },
   { id: 2, name: "courses2" },
