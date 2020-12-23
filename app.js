@@ -1,7 +1,10 @@
 const express = require("express");
 const Joi = require("joi");
 const app = express();
-app.use(express.json());
+const logger = require("./logger");
+app.use(express.json()); //middleware function which takes the request.body and convert invert json object
+
+app.use(logger);
 
 const courses = [
   { id: 1, name: "courses1" },
@@ -58,6 +61,7 @@ app.put("/courses/api/:id", (req, res) => {
 app.delete("/courses/api/:id", (req, res) => {
   const course = courses.find((c) => c.id === parseInt(req.params.id));
   if (!course) return res.status(404).send("course with given id is not found");
+
   const index = courses.indexOf(course);
   courses.splice(index, 1);
   res.send(course);
