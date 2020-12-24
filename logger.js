@@ -11,3 +11,10 @@ function auth(req, res, next) {
   next();
 }
 module.exports = auth;
+ 
+function auth(req, res, next) {
+  console.log("authorization....");
+  next();
+}
+
+module.exports = auther;
