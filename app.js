@@ -5,7 +5,7 @@ const app = express();
 const helmet = require("helmet");
 const morgan = require("morgan");
 const logger = require("./logger");
-app.use(express.json()); //middleware function which takes the request.body and convert invert json object
+app.use(express.json()) //middleware function which takes the request.body and convert invert json object
 
 //built in middleware
 app.use(express.urlencoded({ extended: true })); //this middleware parses in coming req with url payload of key=value pair
